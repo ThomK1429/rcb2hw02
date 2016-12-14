@@ -1,2 +1,2 @@
-# rcb2hw0201
+# rcb2hw02
 RCB2 Homework 02 - NY Times API
