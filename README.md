@@ -1,2 +1,2 @@
 # rcb2hw02
-RCB2 Homework 02 - NY Times API
+RCB2 Homework 02 - NY Times API & GifTastic API
