@@ -1,2 +1,2 @@
-# rcb2project01
-RCB2 Project 01 - API
+# rcb2hw0201
+RCB2 Homework 02 - NY Times API
