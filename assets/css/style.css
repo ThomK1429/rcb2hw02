@@ -1,0 +1,41 @@
+header {
+	background-color:#902929;
+	color: white;
+	margin-right: 200px;
+	margin-left: 200px;
+	height: 150px;
+	margin-top: 15px;
+
+}
+
+#topPage {
+	text-align: center;
+	font-size: 50px;
+	padding-top: 15px;
+}
+ 
+section {
+	border: 2px solid #902929;
+	width: 950px;
+	height: 500px;
+	margin-left: 200px;
+	margin-top: 50px;
+	}
+
+#formInput {
+	margin-right: 15px;
+	margin-left: 15px;
+}
+
+.inputHeader {
+	background-color: #902929; 
+	}
+
+.buttons {
+	margin-left: 15px;
+}
+
+
+
+
+	
