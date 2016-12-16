@@ -22,7 +22,7 @@
 		<div id = 'formInput'>	
 			<div class="form-group has-error">
 			  <label class="control-label" for="inputError1">Search Term:</label>
-			  <input type="text" class="form-control" id="searchterm">
+			  <input type="text" class="form-control" id="inputError1">
 			</div>
 			<div class="form-group has-error">
 			  <label class="control-label" for="inputError1">Number of Records to Retrieve:</label>
@@ -47,41 +47,40 @@
 
 	<script>
 	
-		$(document).ready(function() {
-						console.log("NY Times API has been called. Please wait for its response. ");
+	$(document).ready(function() {
+	console.log("Hi");
 
-						var favorite = $(this).attr('data-name');
-
-						// getting the value 
-						$("#searchterm").val( "the beatles" );
-						var q = $("#searchterm").val();	
-
+	var favorite = $(this).attr('data-name');
+            //alert("favorite=" + favorite);
             //   this is the query statement
-            var url = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
-						url += '?' + $.param({
- 						 	'api-key': "b66102deb71f4f7691fa9ef69cd8ddbc",
-  						'q': q
-						});
-						
-						$.ajax({
-						  url: url,
-						  method: 'GET',
-						})
-						.done(function(result) {
-						  //console.log("result data:" + JSON.stringify(result));
-						  //console.log("web_url:" + result.response.docs[0].web_url);
-						  //console.log("headline:" + result.response.docs[0].headline.main);
-
-						  console.log("NY TIMES API");
-						  console.log("Search Term = " + q);
-						  console.log("Headlines returned from the API...");
-						  for (var i = 0; i < result.response.docs.length; i++) {
-						  	console.log(i+1, "==> ",result.response.docs[i].headline.main);
-						  }
-
-						}).fail(function(err) {
-						  throw err;
-						});
+            var queryURL =
+                "https://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag=" +
+                "\"" + "cat" + "\"";
+            //alert(queryURL);
+            //  issue get to this url
+            $.ajax({
+                    url: queryURL,
+                    method: 'GET'
+                })
+                // 
+                .done(function(response) {
+                    console.log("response.data.image_original_url=" + response.data.image_original_url)
+                    console.log(response);
+                    // 
+                    var imageUrl = response.data.image_original_url;
+                    var imageUrlStill = response.data.fixed_height_small_still_url;
+                    // 
+                    var gifImage = $("<img>");
+                    // 
+                    gifImage.attr('src', imageUrl);
+                    gifImage.attr('data-animate', imageUrl);
+                    gifImage.attr('data-still', imageUrlStill);
+                    gifImage.attr('data-state', 'animate');
+                    gifImage.attr('class', 'imageClass');
+                    gifImage.attr('alt', 'cat image');
+                    //
+                    $('#tkdiv').prepend(gifImage);
+                });
 })
         
 	</script>
