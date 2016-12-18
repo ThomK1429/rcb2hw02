@@ -18,13 +18,14 @@
 	<section>
 		<div class="inputHeader">
   				<h3>Example page header</h3>
-  		</div>		
-		<div id = 'formInput'>	
-			<div class="form-group has-error">
+  	</div>			
+
+  	<form id="formInput">
+			<div class="form-group">
 			  <label class="control-label" for="inputError1">Search Term:</label>
 			  <input type="text" class="form-control" id="searchterm">
 			</div>
-			<div class="form-group has-error">
+			<div class="form-group">
 			  <label class="control-label" for="inputError1">Number of Records to Retrieve:</label>
 			  <input type="text" class="form-control" id="inputError1">
 			</div>
@@ -36,10 +37,11 @@
 			  <label class="control-label" for="inputError1">End Year (Optional):</label>
 			  <input type="text" class="form-control" id="inputError1">
 			</div>
-		</div>
+		</form>
+
 		<div class = 'buttons'>
-			<button type="button" class="btn btn-default" style='background-color: #902929;color: white;'>Search</button>
-			<button type="button" class="btn btn-default" style='background-color: #902929;color: white;'>Clear Results</button>
+			<button type="button" class="btn btn-default" id="btnSearch" style='background-color: #902929;color: white;'>Search</button>
+			<button type="button" class="btn btn-default" id="btnClear" style='background-color: #902929;color: white;'>Clear Results</button>
 		</div>	
 		<div id="tkdiv">hello</div>
 
@@ -48,26 +50,44 @@
 	<script>
 	
 		$(document).ready(function() {
-						console.log("NY Times API has been called. Please wait for its response. ");
 
-						var favorite = $(this).attr('data-name');
 
-						// getting the value 
-						$("#searchterm").val( "the beatles" );
-						var q = $("#searchterm").val();	
+						$("#btnSearch").on("click", function(event)  {
+							//$("#searchterm").val( "beach boys" );  // set the value for test purposes
+							var q = $("#searchterm").val().trim();
+							console.log("NY Times API has been called. Please wait for its response. ");
+							//alert("Search btn clicked");
+							//alert("q=" + q);
 
-            //   this is the query statement
+						// query statement setup
             var url = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
 						url += '?' + $.param({
  						 	'api-key': "b66102deb71f4f7691fa9ef69cd8ddbc",
   						'q': q
 						});
-						
+
 						$.ajax({
 						  url: url,
 						  method: 'GET',
 						})
 						.done(function(result) {
+						  	consoleIt(result, q);
+						}).fail(function(err) {
+						  throw err;
+							});
+
+
+						})  // end #btnSearch on click
+
+						$("#btnClear").on("click", function(event)  {
+								//alert("Clear btn clicked");
+								$("#searchterm").val( "" );
+
+						})
+
+
+
+						function consoleIt(result, q){
 						  //console.log("result data:" + JSON.stringify(result));
 						  //console.log("web_url:" + result.response.docs[0].web_url);
 						  //console.log("headline:" + result.response.docs[0].headline.main);
@@ -76,12 +96,10 @@
 						  console.log("Search Term = " + q);
 						  console.log("Headlines returned from the API...");
 						  for (var i = 0; i < result.response.docs.length; i++) {
-						  	console.log(i+1, "==> ",result.response.docs[i].headline.main);
+						  		console.log(i+1, "==> ",result.response.docs[i].headline.main);
 						  }
-
-						}).fail(function(err) {
-						  throw err;
-						});
+						}
+				
 })
         
 	</script>
