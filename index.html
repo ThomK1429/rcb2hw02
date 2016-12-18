@@ -27,15 +27,15 @@
 			</div>
 			<div class="form-group">
 			  <label class="control-label" for="inputError1">Number of Records to Retrieve:</label>
-			  <input type="text" class="form-control" id="inputError1">
+			  <input type="text" class="form-control" id="numrecs">
 			</div>
 			<div class="form-group has-error">
 			  <label class="control-label" for="inputError1">Start Year (Optional):</label>
-			  <input type="text" class="form-control" id="inputError1">
+			  <input type="text" class="form-control" id="startyr">
 			</div>
 			<div class="form-group has-error">
 			  <label class="control-label" for="inputError1">End Year (Optional):</label>
-			  <input type="text" class="form-control" id="inputError1">
+			  <input type="text" class="form-control" id="endyr">
 			</div>
 		</form>
 
@@ -82,6 +82,9 @@
 						$("#btnClear").on("click", function(event)  {
 								//alert("Clear btn clicked");
 								$("#searchterm").val( "" );
+								$("#numrecs").val( "" );
+								$("#startyr").val( "" );
+								$("#endyr").val( "" );
 
 						})
 
