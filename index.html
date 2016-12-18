@@ -43,7 +43,7 @@
 			<button type="button" class="btn btn-default" id="btnSearch" style='background-color: #902929;color: white;'>Search</button>
 			<button type="button" class="btn btn-default" id="btnClear" style='background-color: #902929;color: white;'>Clear Results</button>
 		</div>	
-		<div id="tkdiv">hello</div>
+		<div id="screenData"></div>
 
 	</section>
 
@@ -72,6 +72,9 @@
 						})
 						.done(function(result) {
 						  	consoleIt(result, q);
+						  	$("#screenData").append("<br><a href='" + result.response.docs[0].web_url 
+						  		+ "' target='_blank' > " 
+						  		+ result.response.docs[0].headline.main) + "</a>";
 						}).fail(function(err) {
 						  throw err;
 							});
@@ -79,13 +82,16 @@
 
 						})  // end #btnSearch on click
 
+						// Clear input fields and html data on screen
 						$("#btnClear").on("click", function(event)  {
 								//alert("Clear btn clicked");
+								// clear input fields
 								$("#searchterm").val( "" );
 								$("#numrecs").val( "" );
 								$("#startyr").val( "" );
 								$("#endyr").val( "" );
 
+								$("#screenData").empty();
 						})
 
 
