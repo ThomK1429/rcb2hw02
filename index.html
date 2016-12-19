@@ -54,6 +54,7 @@
 
 						$("#btnSearch").on("click", function(event)  {
 							//$("#searchterm").val( "beach boys" );  // set the value for test purposes
+							clearScreenData();  // clear any prior screen data returned by API
 							var q = $("#searchterm").val().trim();
 							console.log("NY Times API has been called. Please wait for its response. ");
 							//alert("Search btn clicked");
@@ -72,9 +73,13 @@
 						})
 						.done(function(result) {
 						  	consoleIt(result, q);
-						  	$("#screenData").append("<br><a href='" + result.response.docs[0].web_url 
-						  		+ "' target='_blank' > " 
-						  		+ result.response.docs[0].headline.main) + "</a>";
+
+						  for (var i = 0; (i < result.response.docs.length && i < 4); i++) {
+						  		$("#screenData").append("<br><a href='" + result.response.docs[i].web_url 
+						  		+ "' target='_blank' id='searchLinks' > " 
+						  		+ result.response.docs[i].headline.main) + "</a>";
+						  }
+
 						}).fail(function(err) {
 						  throw err;
 							});
@@ -85,16 +90,22 @@
 						// Clear input fields and html data on screen
 						$("#btnClear").on("click", function(event)  {
 								//alert("Clear btn clicked");
+								clearInput();
+								clearScreenData();
+						})
+
+						function clearInput() {
 								// clear input fields
 								$("#searchterm").val( "" );
 								$("#numrecs").val( "" );
 								$("#startyr").val( "" );
 								$("#endyr").val( "" );
+						}
 
+						function clearScreenData() {
+								// clear screen Data (resultant API links)
 								$("#screenData").empty();
-						})
-
-
+						}
 
 						function consoleIt(result, q){
 						  //console.log("result data:" + JSON.stringify(result));
