@@ -22,6 +22,11 @@ section {
 	margin-top: 50px;
 	}
 
+.inputHeader {
+	text-align: center;
+	color: white;
+}
+
 #formInput {
 	margin-right: 15px;
 	margin-left: 15px;
@@ -37,6 +42,10 @@ section {
 
 #searchLinks {
 	margin-left: 15px;
+}
+
+#noData {
+	text-align: center;
 }
 
 
