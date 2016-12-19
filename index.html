@@ -30,12 +30,12 @@
 			  <input type="text" class="form-control" id="numrecs">
 			</div>
 			<div class="form-group has-error">
-			  <label class="control-label" for="inputError1">Start Year (Optional):</label>
-			  <input type="text" class="form-control" id="startyr">
+			  <label class="control-label" for="inputError1">Start Date - YYYYMMDD (Optional):</label>
+			  <input type="text" class="form-control" id="startDate">
 			</div>
 			<div class="form-group has-error">
-			  <label class="control-label" for="inputError1">End Year (Optional):</label>
-			  <input type="text" class="form-control" id="endyr">
+			  <label class="control-label" for="inputError1">End Date - YYYYMMDD (Optional):</label>
+			  <input type="text" class="form-control" id="endDate">
 			</div>
 		</form>
 
@@ -88,7 +88,16 @@
 						url += '?' + $.param({
  						 	'api-key': "b66102deb71f4f7691fa9ef69cd8ddbc",
   						'q': q
+
 						});
+
+						if ($("#startDate").val().trim() != "") {
+							url += '&' +$.param({'begin_date':  + $("#startDate").val().trim() });
+						}
+						if ($("#endDate").val().trim() != "") {
+							url += '&' +$.param({'end_date':  + $("#endDate").val().trim() });
+						}
+						console.log("url=" + url);
 
 						$.ajax({
 						  url: url,
