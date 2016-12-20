@@ -26,8 +26,8 @@
 			  <input type="text" class="form-control" id="searchterm">
 			</div>
 			<div class="form-group">
-			  <label class="control-label" for="inputError1">Number of Records to Retrieve:</label>
-			  <input type="text" class="form-control" id="numrecs">
+			  <label class="control-label" for="inputError1">Number (1-4)  of Records to Retrieve:</label>
+			  <input type="text" class="form-control" id="numRecs">
 			</div>
 			<div class="form-group has-error">
 			  <label class="control-label" for="inputError1">Start Date - YYYYMMDD (Optional):</label>
@@ -77,6 +77,13 @@
 
 						function btnSearch () {
 							var q = $("#searchterm").val().trim();
+							var numRecs = 4;
+							if ($("#numRecs").val().trim() != "")
+								numRecs = $("#numRecs").val().trim();
+							if ((numRecs >= 1) && (numRecs <= 4)) {
+								} else {
+								    numRecs = 4
+							  };
 
 
 							console.log("NY Times API has been called. Please wait for its response. ");
@@ -90,6 +97,8 @@
   						'q': q
 
 						});
+
+						
 
 						if ($("#startDate").val().trim() != "") {
 							url += '&' +$.param({'begin_date':  + $("#startDate").val().trim() });
@@ -107,7 +116,7 @@
 						  	consoleIt(result, q);
 
 						  	if (result.response.meta.hits != 0) {
-						  			for (var i = 0; (i < result.response.docs.length && i < 4); i++) {
+						  			for (var i = 0; (i < result.response.docs.length && i < numRecs); i++) {
 						  				$("#screenData").append("<br><a href='" + result.response.docs[i].web_url 
 						  				+ "' target='_blank' id='searchLinks' > " 
 						  				+ result.response.docs[i].headline.main.slice(0,110)) + "</a>";
