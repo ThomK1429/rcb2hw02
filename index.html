@@ -1,174 +1,56 @@
 <!DOCTYPE html>
+
+<!-- HTML alignment via http://www.freeformatter.com/html-formatter.html#ad-output
+		 Javascript alignment via http://jsbeautifier.org/ 
+
+	Rutgers Coding Bootcamp - Homework 02 - Group Project - 2016 12 20
+	Specs - https://github.com/RutgersCodingBootcamp/10-16-NB-Class-Content/blob/master/06-ajax/2-Homework/Instructions/homework.md
+	Joey Rodrigues - Front End HTML
+	Tom Keel - API/Javascript
+
+	NY Times API - https://developer.nytimes.com/
+	github link: https://github.com/ThomK1429/rcb2hw02
+	heroku link: https://rcb2-hw02-apis-jrtk.herokuapp.com/
+
+-->
+
 <html>
-<head>
-	<title>NYT-API</title>
-    <script src='https://code.jquery.com/jquery-2.1.3.min.js'>
-    </script>
-	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
-
-
-</head>
-<body>
-	
-	<header>
-		<div id = 'topPage'>New York Times Search</div>
-	</header>
-
-	<section>
-		<div class="inputHeader">
-  				<h3>Search Criteria and NY Times API results</h3>
-  	</div>			
-
-  	<form id="formInput">
-			<div class="form-group">
-			  <label class="control-label" for="inputError1">Search Term:</label>
-			  <input type="text" class="form-control" id="searchterm">
-			</div>
-			<div class="form-group">
-			  <label class="control-label" for="inputError1">Number (1-4)  of Records to Retrieve:</label>
-			  <input type="text" class="form-control" id="numRecs">
-			</div>
-			<div class="form-group has-error">
-			  <label class="control-label" for="inputError1">Start Date - YYYYMMDD (Optional):</label>
-			  <input type="text" class="form-control" id="startDate">
-			</div>
-			<div class="form-group has-error">
-			  <label class="control-label" for="inputError1">End Date - YYYYMMDD (Optional):</label>
-			  <input type="text" class="form-control" id="endDate">
-			</div>
-		</form>
-
-		<div class = 'buttons'>
-			<button type="button" class="btn btn-default" id="btnSearch" style='background-color: #902929;color: white;'>Search</button>
-			<button type="button" class="btn btn-default" id="btnClear" style='background-color: #902929;color: white;'>Clear Results</button>
-		</div>	
-		<div id="screenData"></div>
-
-	</section>
-
-	<script>
-	
-		$(document).ready(function() {
-
-
-						$("#btnSearch").on("click", function(event)  {
-							//$("#searchterm").val( "beach boys" );  // set the value for test purposes
-							clearScreenData();  // clear any prior screen data returned by API
-
-							if ($("#searchterm").val().trim() != "") {
-								btnSearch();
-							} else {
-								 $("#screenData").append("	<br><br><p id='noData'> No Search Term entered.</p>");
-								 consoleIt();
-							}
-
-						})  // end #btnSearch on click
-
-
-
-						// Clear input fields and html data on screen
-						$("#btnClear").on("click", function(event)  {
-								//alert("Clear btn clicked");
-								clearInput();
-								clearScreenData();
-						})
-
-
-						function btnSearch () {
-							var q = $("#searchterm").val().trim();
-							var numRecs = 4;
-							if ($("#numRecs").val().trim() != "")
-								numRecs = $("#numRecs").val().trim();
-							if ((numRecs >= 1) && (numRecs <= 4)) {
-								} else {
-								    numRecs = 4
-							  };
-
-
-							console.log("NY Times API has been called. Please wait for its response. ");
-							//alert("Search btn clicked");
-							//alert("q=" + q);
-
-						// query statement setup
-            var url = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
-						url += '?' + $.param({
- 						 	'api-key': "b66102deb71f4f7691fa9ef69cd8ddbc",
-  						'q': q
-
-						});
-
-						
-
-						if ($("#startDate").val().trim() != "") {
-							url += '&' +$.param({'begin_date':  + $("#startDate").val().trim() });
-						}
-						if ($("#endDate").val().trim() != "") {
-							url += '&' +$.param({'end_date':  + $("#endDate").val().trim() });
-						}
-						console.log("url=" + url);
-
-						$.ajax({
-						  url: url,
-						  method: 'GET',
-						})
-						.done(function(result) {
-						  	consoleIt(result, q);
-
-						  	if (result.response.meta.hits != 0) {
-						  			for (var i = 0; (i < result.response.docs.length && i < numRecs); i++) {
-						  				$("#screenData").append("<br><a href='" + result.response.docs[i].web_url 
-						  				+ "' target='_blank' id='searchLinks' > " 
-						  				+ result.response.docs[i].headline.main.slice(0,110)) + "</a>";
-						  			} 
-						  	
-						  	}	else {
-						  			$("#screenData").append("	<br><br><p id='noData'> No data found for this search criteria.</p>");
-						  	};
-
-						}).fail(function(err) {
-						  throw err;
-							});
-						}
-
-
-						function clearInput() {
-								// clear input fields
-								$("#searchterm").val( "" );
-								$("#numrecs").val( "" );
-								$("#startDate").val( "" );
-								$("#endDate").val( "" );
-						}
-
-						function clearScreenData() {
-								// clear screen Data (resultant API links)
-								$("#screenData").empty();
-						}
-
-						function consoleIt(result, q){
-						  //console.log("result data:" + JSON.stringify(result));
-						  //console.log("hits:" + result.response.meta.hits);
-						  //console.log("web_url:" + result.response.docs[0].web_url);
-						  //console.log("headline:" + result.response.docs[0].headline.main);
-
-						  console.log("NY TIMES API");
-						  console.log("Search Term = " + q);
-						  console.log("Headlines returned from the API...");
-
-							if ($("#searchterm").val().trim() != "") {
-									for (var i = 0; i < result.response.docs.length; i++) {
-						  		  console.log(i+1, "==> ",result.response.docs[i].headline.main);
-						  		} 
-						  } else {
-								  console.log("No Search Term entered.");
-							}
-
-
-						}
-				
-})
-        
-	</script>
-
-</body>
+   <head>
+      <title>NYT-API</title>
+      <script src='https://code.jquery.com/jquery-2.1.3.min.js'></script>
+      <link href="assets/css/style.css" rel="stylesheet" type="text/css">
+      <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+      <script src="assets/javascript/app.js"></script>
+   </head>
+   <body>
+      <header>
+         <div id='topPage'>
+            New York Times Search
+         </div>
+      </header>
+      <section>
+         <div class="inputHeader">
+            <h3>Search Criteria and NY Times API results</h3>
+         </div>
+         <form id="formInput" name="formInput">
+            <div class="form-group">
+               <label class="control-label" for="inputError1">Search Term:</label> <input class="form-control" id="searchterm" type="text">
+            </div>
+            <div class="form-group">
+               <label class="control-label" for="inputError1">Number (1-4) of Records to Retrieve:</label> <input class="form-control" id="numRecs" type="text">
+            </div>
+            <div class="form-group has-error">
+               <label class="control-label" for="inputError1">Start Date - YYYYMMDD (Optional):</label> <input class="form-control" id="startDate" type="text">
+            </div>
+            <div class="form-group has-error">
+               <label class="control-label" for="inputError1">End Date - YYYYMMDD (Optional):</label> <input class="form-control" id="endDate" type="text">
+            </div>
+         </form>
+         <div class='buttons'>
+            <button class="btn btn-default" id="btnSearch" style='background-color: #902929;color: white;' type="button">Search</button> <button class="btn btn-default" id="btnClear" style='background-color: #902929;color: white;' type="button">Clear Results</button>
+         </div>
+         <div id="screenData">
+         </div>
+      </section>
+   </body>
 </html>
