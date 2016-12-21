@@ -16,8 +16,9 @@ header {
  
 section {
 	border: 2px solid #902929;
-	width: 950px;
+	/* width: 950px; */
 	height: 500px;
+	margin-right: 200px;
 	margin-left: 200px;
 	margin-top: 50px;
 	}
