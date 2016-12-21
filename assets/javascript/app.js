@@ -1,26 +1,33 @@
 $(document).ready(function() {
 
 
+	// Javascript to process the form input, calling the NY TIMES API and displaying results. 
+
+	// BUTTONS:
+	// Search button
    $("#btnSearch").on("click", function(event) {
          //$("#searchterm").val( "beach boys" );  // set the value for test purposes
          clearScreenData(); // clear any prior screen data returned by API
 
          if ($("#searchterm").val().trim() != "") {
-            btnSearch();
+            btnSearch();		// Search button processing
          } else {
-            $("#screenData").append("	<br><br><p id='noData'> No Search Term entered.</p>");
-            consoleIt();
+            $("#screenData").append("	<br><br><p id='noData'> No Search Term entered.</p>"); 
+            // consoleIt();  // Test purposes
          }
 
       }) // end #btnSearch on click
 
 
-   // Clear input fields and html data on screen
+   // Clear input fields and html data on screen and any console.log output
    $("#btnClear").on("click", function(event) {
       //alert("Clear btn clicked");
       clearInput();
       clearScreenData();
+      clearConsole();
    })
+
+
 
 
    function btnSearch() {
@@ -33,7 +40,7 @@ $(document).ready(function() {
       };
 
 
-      console.log("NY Times API has been called. Please wait for its response. ");
+      console.log("NY Times API has been called. Please wait for its response. "); // test purposes
       //alert("Search btn clicked");
       //alert("q=" + q);
 
@@ -46,6 +53,7 @@ $(document).ready(function() {
       });
 
 
+      // concatenate start and end date entries if entered
       if ($("#startDate").val().trim() != "") {
          url += '&' + $.param({
             'begin_date': +$("#startDate").val().trim()
@@ -56,14 +64,15 @@ $(document).ready(function() {
             'end_date': +$("#endDate").val().trim()
          });
       }
-      console.log("url=" + url);
+      // console.log("url=" + url); // test purposes
 
+      // call the NY TIMES API
       $.ajax({
             url: url,
             method: 'GET',
          })
          .done(function(result) {
-            consoleIt(result, q);
+            // consoleIt(result, q);  // test purposes
 
             if (result.response.meta.hits != 0) {
                for (var i = 0;
@@ -83,20 +92,29 @@ $(document).ready(function() {
    }
 
 
+   function clearConsole() {
+      // clear the console.log
+      console.clear();
+   }
+
+
    function clearInput() {
       // clear input fields
       $("#searchterm").val("");
-      $("#numrecs").val("");
+      $("#numRecs").val("");
       $("#startDate").val("");
       $("#endDate").val("");
    }
+
 
    function clearScreenData() {
       // clear screen Data (resultant API links)
       $("#screenData").empty();
    }
 
+
    function consoleIt(result, q) {
+   		// Test Results: console log the api results.  This will be turned off for general use. 
       //console.log("result data:" + JSON.stringify(result));
       //console.log("hits:" + result.response.meta.hits);
       //console.log("web_url:" + result.response.docs[0].web_url);
